@@ -1,0 +1,9 @@
+version: '2.2'
+
+services:
+  alpinepoco-creepminer:
+    build: .
+    image: ragetti/alpinepoco-creepminer
+
+
+
