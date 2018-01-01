@@ -44,7 +44,8 @@ node {
 	stage('Deploy to local Server') {
 		sh 'docker ps -f name=creepminer -q | xargs --no-run-if-empty docker container stop'
 		sh 'docker container ls -a -fname=creepminer -q | xargs -r docker container rm'
-		
-		buildImage.image("${env.BUILD_NUMBER}").withRun('--name creepminer -p 8126:8126 --restart=on-failure --entrypoint="/app/creepMiner" -v "/home/miner/dockerfiles/mycreepminer/mining.conf:/app/mining.conf" -v "/mnt/plots:/plots/:ro" ')
+		docker.withRegistry('http://192.168.1.99:5000', 'private-hub-credentials') {
+			buildImage.image("${env.BUILD_NUMBER}").withRun('--name creepminer -p 8126:8126 --restart=on-failure --entrypoint="/app/creepMiner" -v "/home/miner/dockerfiles/mycreepminer/mining.conf:/app/mining.conf" -v "/mnt/plots:/plots/:ro" ')
+		}
 	}
 }
