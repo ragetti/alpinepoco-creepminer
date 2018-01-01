@@ -31,9 +31,6 @@ node {
 	}
 	
 	stage('deploy') {
-		docker {
-				image '${buildImage.imageName()}:${buildImage.imageName()}'
-				args '--name "${buildImage.imageName()}" -p 8126:8126 --restart=on-failure --entrypoint="/app/creepMiner" -v "/home/miner/dockerfiles/mycreepminer/mining.conf:/app/mining.conf" -v "/mnt/plots:/plots/:ro" '
-		}
+		sh 'docker stack deploy -c /home/miner/dockerservices/creepminer/docker-compose.yml mining'
 	}
 }
