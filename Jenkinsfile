@@ -1,6 +1,5 @@
 node {
     def buildImage
-#	env.BUILDNAME = env.JOB_NAME.replaceFirst('/(?=[^/]+$)', '')
 	env.BUILDNAME = env.JOB_NAME.replaceFirst('\/[^\/]+$', '')
 	
 	echo "BUILDNAME=${env.BUILDNAME}"
