@@ -23,6 +23,7 @@ node {
             buildImage.push()
             buildImage.push("latest")
         }
+		buildImage.push("latest")
     }
 	
 	stage('cleanup') {
