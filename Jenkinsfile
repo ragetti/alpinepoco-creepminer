@@ -1,5 +1,5 @@
 node {
-    def app
+    def buildImage
 
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
@@ -11,14 +11,14 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        app = docker.build("ragetti/alpinepoco-creepminer")
+        buildImage = docker.build("ragetti/alpinepoco-creepminer")
     }
 
     stage('Test image') {
         /* Ideally, we would run a test framework against our image.
          * For this example, we're using a Volkswagen-type approach ;-) */
 
-        app.inside {
+        buildImage.inside {
             sh 'echo "Tests passed"'
         }
     }
@@ -32,14 +32,19 @@ node {
 		 
 		 /*
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
+            buildImage.push("${env.BUILD_NUMBER}")
+            buildImage.push("latest")
         }*/
 
         docker.withRegistry('http://192.168.1.99:5000', 'private-hub-credentials') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
-        }		
-		
+            buildImage.push("${env.BUILD_NUMBER}")
+            buildImage.push("latest")
+        }
     }
+	stage('Deploy to local Server') {
+		sh 'docker ps -f name=creepminer -q | xargs --no-run-if-empty docker container stop'
+		sh 'docker container ls -a -fname=creepminer -q | xargs -r docker container rm'
+		
+		buildImage.image("${env.BUILD_NUMBER}").withRun('--name creepminer -p 8126:8126 --restart=on-failure --entrypoint="/app/creepMiner" -v "/home/miner/dockerfiles/mycreepminer/mining.conf:/app/mining.conf" -v "/mnt/plots:/plots/:ro" ')
+	}
 }
