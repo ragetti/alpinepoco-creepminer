@@ -31,7 +31,8 @@ node {
 	stage('Run') {
 		docker.withRegistry('http://192.168.1.99:5000', 'private-hub-credentials') {
 		    buildImage.pull()
-			docker.image('${buildImage.imageName()}:${buildImage.imageName()}').run('--name "${buildImage.imageName()"} -p 8126:8126 --restart=on-failure --entrypoint="/app/creepMiner" -v "/home/miner/dockerfiles/mycreepminer/mining.conf:/app/mining.conf" -v "/mnt/plots:/plots/:ro" ')
+			docker.image('${buildImage.imageName()}:${buildImage.imageName()}')
+			.run('--name "${buildImage.imageName()}" -p 8126:8126 --restart=on-failure --entrypoint="/app/creepMiner" -v "/home/miner/dockerfiles/mycreepminer/mining.conf:/app/mining.conf" -v "/mnt/plots:/plots/:ro" ')
 		}
 	}
 }
