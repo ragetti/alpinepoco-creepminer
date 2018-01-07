@@ -29,9 +29,10 @@ node {
 		sh 'docker ps -f name=${buildImage.imageName()} -q | xargs --no-run-if-empty docker container stop'
 		sh 'docker container ls -a -fname=${buildImage.imageName()} -q | xargs -r docker container rm'
 	}
-	
+
+/*	
 	stage('deploy') {
 		sh 'docker stack deploy -c /home/miner/dockerservices/creepminer/docker-compose.yml mining'
 	}
-
+*/
 }
