@@ -20,10 +20,9 @@ node {
 
     stage('push') {
         docker.withRegistry('http://192.168.1.99:5000', 'private-hub-credentials') {
-            buildImage.push()
-            buildImage.push("latest")
-        }
-		buildImage.push("latest")
+            app.push("${env.BUILD_NUMBER}")
+            app.push("latest")
+        }		
     }
 	
 	stage('cleanup') {
