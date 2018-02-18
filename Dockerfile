@@ -1,4 +1,4 @@
-FROM ragetti/alpine-poco
+FROM alpine:3.7
 
 MAINTAINER ragetti
 
@@ -6,7 +6,9 @@ WORKDIR /app
 
 RUN   \
   mkdir -p /app/log && \
-  apk --no-cache --no-progress add libstdc++ libgcc openssl && \
+  apk --no-cache --no-progress update && \
+  apk --no-cache --no-progress upgrade && \
+  apk --no-cache --no-progress add libstdc++ libgcc openssl libc6-compat && \
   apk --no-cache --no-progress --virtual .build-deps add cmake g++ make openssl-dev glib git linux-headers py-pip build-base && \
   pip install conan && \
   git clone https://github.com/Creepsky/creepMiner.git creepMiner.git && \
