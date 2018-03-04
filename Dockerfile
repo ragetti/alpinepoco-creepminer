@@ -20,3 +20,7 @@ RUN   \
   apk --no-cache --no-progress del .build-deps && \
   echo "Build complete"
 
+EXPOSE 8126
+ENTRYPOINT ["creepMiner"]
+
+
