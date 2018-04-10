@@ -15,6 +15,7 @@ RUN   \
   cmake CMakeLists.txt -DCMAKE_BUILD_TYPE=RELEASE -DNO_GPU=ON -DUSE_CONAN=OFF && \
   make && \
   cp -r ./bin/* /app/ && \
+  cp -r resources/public /app && \
   cd .. && \
   rm -r creepMiner.git && \
   apk --no-cache --no-progress del .build-deps && \
