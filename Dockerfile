@@ -22,6 +22,6 @@ RUN   \
   echo "Build complete"
 
 EXPOSE 8126
-ENTRYPOINT ["/app/creepMiner"]
+CMD ["/app/creepMiner"]
 
 
